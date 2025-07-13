@@ -24,3 +24,18 @@ typedef struct HashTable {
     FreeFunc freeKey;
     FreeFunc freeVal;
 } HashTable;
+
+#define LOAD_FACTOR_LIMIT 0.75
+
+HashTable* createHashTable(int size, HashFunc hash, CmpFunc cmp, FreeFunc freeKey, FreeFunc freeVal) {
+    HashTable* ht = malloc(sizeof(HashTable));
+    ht->buckets = calloc(size, sizeof(Entry*));
+    ht->size = size;
+    ht->count = 0;
+    ht->collisions = 0;
+    ht->hash = hash;
+    ht->compare = cmp;
+    ht->freeKey = freeKey;
+    ht->freeVal = freeVal;
+    return ht;
+}
