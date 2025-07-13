@@ -39,3 +39,29 @@ HashTable* createHashTable(int size, HashFunc hash, CmpFunc cmp, FreeFunc freeKe
     ht->freeVal = freeVal;
     return ht;
 }
+
+static void rehash(HashTable** htRef) {
+    HashTable* old = *htRef;
+    int newSize = old->size * 2;
+    HashTable* newTable = createHashTable(newSize, old->hash, old->compare, old->freeKey, old->freeVal);
+
+    for (int i = 0; i < old->size; i++) {
+        Entry* current = old->buckets[i];
+        while (current) {
+            // Inserção sem duplicata garantida na tabela nova
+            Entry* next = current->next;
+            current->next = NULL; // desligar para evitar ligação errada
+            // Inserir diretamente para preservar valor e chave
+            int index = newTable->hash(current->key) % newTable->size;
+            if (newTable->buckets[index] != NULL)
+                newTable->collisions++;
+            current->next = newTable->buckets[index];
+            newTable->buckets[index] = current;
+            newTable->count++;
+            current = next;
+        }
+    }
+    free(old->buckets);
+    free(old);
+    *htRef = newTable;
+}
