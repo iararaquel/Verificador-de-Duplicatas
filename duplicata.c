@@ -97,3 +97,39 @@ int insert(HashTable** htRef, void* key, void* value) {
     ht->count++;
     return 1;
 }
+
+void* get(HashTable* ht, void* key) {
+    int index = ht->hash(key) % ht->size;
+    Entry* current = ht->buckets[index];
+    while (current) {
+        if (ht->compare(current->key, key) == 0)
+            return current->value;
+        current = current->next;
+    }
+    return NULL;
+}
+
+// Retorna 1 se removeu, 0 se não achou
+int removeKey(HashTable* ht, void* key) {
+    int index = ht->hash(key) % ht->size;
+    Entry* current = ht->buckets[index];
+    Entry* prev = NULL;
+
+    while (current) {
+        if (ht->compare(current->key, key) == 0) {
+            if (prev)
+                prev->next = current->next;
+            else
+                ht->buckets[index] = current->next;
+
+            if (ht->freeKey) ht->freeKey(current->key);
+            if (ht->freeVal) ht->freeVal(current->value);
+            free(current);
+            ht->count--;
+            return 1;
+        }
+        prev = current;
+        current = current->next;
+    }
+    return 0;
+}
