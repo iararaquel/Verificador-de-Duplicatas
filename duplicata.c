@@ -133,3 +133,34 @@ int removeKey(HashTable* ht, void* key) {
     }
     return 0;
 }
+
+void freeTable(HashTable* ht) {
+    for (int i = 0; i < ht->size; i++) {
+        Entry* current = ht->buckets[i];
+        while (current) {
+            Entry* temp = current;
+            current = current->next;
+            if (ht->freeKey) ht->freeKey(temp->key);
+            if (ht->freeVal) ht->freeVal(temp->value);
+            free(temp);
+        }
+    }
+    free(ht->buckets);
+    free(ht);
+}
+
+void printTable(HashTable* ht, PrintFunc printValue) {
+    printf("\nTabela Hash (tamanho=%d, itens=%d):\n", ht->size, ht->count);
+    for (int i = 0; i < ht->size; i++) {
+        printf("[%d] -> ", i);
+        Entry* current = ht->buckets[i];
+        while (current) {
+            printf("(");
+            printValue(current->value);
+            printf(") -> ");
+            current = current->next;
+        }
+        printf("NULL\n");
+    }
+    printf("Colisões: %d | Load factor: %.2f\n", ht->collisions, (float)ht->count / ht->size);
+}
