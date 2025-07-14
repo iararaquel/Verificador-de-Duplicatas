@@ -40,6 +40,38 @@ HashTable* createHashTable(int size, HashFunc hash, CmpFunc cmp, FreeFunc freeKe
     return ht;
 }
 
+// Retorna 1 se inseriu, 0 se duplicata
+int insert(HashTable** htRef, void* key, void* value) {
+    HashTable* ht = *htRef;
+    float load = (float)(ht->count + 1) / ht->size;
+    if (load > LOAD_FACTOR_LIMIT) {
+        rehash(htRef);
+        ht = *htRef;
+    }
+
+    int index = ht->hash(key) % ht->size;
+    Entry* current = ht->buckets[index];
+
+    while (current) {
+        if (ht->compare(current->key, key) == 0) {
+            // Duplicata detectada
+            return 0;
+        }
+        current = current->next;
+    }
+
+    if (ht->buckets[index] != NULL)
+        ht->collisions++;
+
+    Entry* newEntry = malloc(sizeof(Entry));
+    newEntry->key = key;
+    newEntry->value = value;
+    newEntry->next = ht->buckets[index];
+    ht->buckets[index] = newEntry;
+    ht->count++;
+    return 1;
+}
+
 static void rehash(HashTable** htRef) {
     HashTable* old = *htRef;
     int newSize = old->size * 2;
