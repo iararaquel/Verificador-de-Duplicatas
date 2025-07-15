@@ -35,9 +35,13 @@ comportamento da tabela quanto ao tipo de dado.
 # Conclusão
 A implementação cumpre eficientemente os requisitos de uma tabela hash genérica. Entre
 os destaques:
+
 ● Flexibilidade de uso com qualquer tipo de dado;
+
 ● Eficiência na inserção e busca;
+
 ● Detecção de duplicatas e rehashing automático;
+
 ● Controle de colisões e fator de carga.
 A estrutura pode ser estendida para suportar mais funcionalidades, como iteração,
 exportação/importação de dados, ou suporte a tipos específicos via macros.
