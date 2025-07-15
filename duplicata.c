@@ -210,3 +210,24 @@ int main() {
             free(valPtr);
         }
     }
+
+    printTable(ht, printInt);
+
+    char* busca = "maçã";
+    int* valor = get(ht, busca);
+    if (valor)
+        printf("\nValor para chave '%s': %d\n", busca, *valor);
+    else
+        printf("\nChave '%s' não encontrada\n", busca);
+
+    printf("\nRemovendo chave 'banana'\n");
+    if(removeKey(ht, "banana"))
+        printf("Remoção realizada com sucesso.\n");
+    else
+        printf("Chave 'banana' não encontrada.\n");
+
+    printTable(ht, printInt);
+
+    freeTable(ht);
+    return 0;
+}
