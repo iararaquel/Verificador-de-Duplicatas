@@ -164,3 +164,49 @@ void printTable(HashTable* ht, PrintFunc printValue) {
     }
     printf("Colisões: %d | Load factor: %.2f\n", ht->collisions, (float)ht->count / ht->size);
 }
+
+// Função hash djb2 para strings
+unsigned long hashString(void* key) {
+    unsigned char* str = (unsigned char*)key;
+    unsigned long hash = 5381;
+    int c;
+    while ((c = *str++))
+        hash = ((hash << 5) + hash) + c;
+    return hash;
+}
+
+// Comparação para strings
+int cmpString(void* a, void* b) {
+    return strcmp((char*)a, (char*)b);
+}
+
+// Libera string
+void freeString(void* p) {
+    free(p);
+}
+
+// Imprime inteiro
+void printInt(void* val) {
+    printf("%d", (int)val);
+}
+
+int main() {
+    HashTable* ht = createHashTable(8, hashString, cmpString, freeString, free);
+
+    char* keys[] = {"banana", "maçã", "laranja", "banana"};
+    int values[] = {10, 20, 30, 40};
+
+    for (int i = 0; i < 4; i++) {
+        char* keyCopy = strdup(keys[i]);
+        int* valPtr = malloc(sizeof(int));
+        *valPtr = values[i];
+
+        int inserted = insert(&ht, keyCopy, valPtr);
+        if (inserted)
+            printf("Inserido: %s -> %d\n", keyCopy, *valPtr);
+        else {
+            printf("Duplicata detectada para chave '%s', não inserido.\n", keyCopy);
+            free(keyCopy);
+            free(valPtr);
+        }
+    }
