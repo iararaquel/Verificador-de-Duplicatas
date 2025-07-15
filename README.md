@@ -8,18 +8,27 @@ chave ou valor, desde que funções auxiliares específicas sejam fornecidas pel
 (hash, comparação, liberação e impressão).
 
 # O problema central consiste em criar uma estrutura de tabela hash eficiente, reutilizável e segura, que possa:
+
 ● Inserir elementos com verificação de duplicatas;
+
 ● Redimensionar automaticamente a tabela conforme o fator de carga;
+
 ● Buscar e remover elementos;
+
 ● Armazenar qualquer tipo de dado genérico;
+
 ● Exibir estatísticas como número de colisões e fator de carga.
 Essa abordagem é útil em contextos onde há a necessidade de desempenho e flexibilidade,
 como em interpretadores, sistemas de cache ou indexação de dados.
 
 # Para resolver o problema, foi criada uma tabela hash baseada em listas encadeadas, com as seguintes estratégias:
+
 ● Encadeamento separado para tratamento de colisões;
+
 ● Função de hash djb2 para strings (pode ser substituída);
+
 ● Rehash automático quando o fator de carga atinge 0,75;
+
 ● Uso de funções ponteiro (callbacks) para permitir personalização do
 comportamento da tabela quanto ao tipo de dado.
 
