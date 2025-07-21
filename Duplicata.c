@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 typedef unsigned long (*HashFunc)(void* key);
 typedef int (*CmpFunc)(void* a, void* b);
@@ -229,5 +230,27 @@ int main() {
     printTable(ht, printInt);
 
     freeTable(ht);
+    return 0;
+}
+
+int main() {
+    int numeros[] = {1, 2, 3, 4, 5, 3};  // exemplo
+    int tamanho = sizeof(numeros) / sizeof(numeros[0]);
+
+    clock_t inicio = clock(); 
+
+    int resultado = temDuplicatas(numeros, tamanho);
+
+    clock_t fim = clock(); 
+
+    double tempo = (double)(fim - inicio) / CLOCKS_PER_SEC;
+    printf("Tempo: %f segundos\n", tempo);  
+
+    if (resultado) {
+        printf("Há duplicatas.\n");
+    } else {
+        printf("Não há duplicatas.\n");
+    }
+
     return 0;
 }
