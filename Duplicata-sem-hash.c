@@ -43,17 +43,16 @@ int main() {
 }
 
 int main() {
-    int numeros[] = {1, 2, 3, 4, 5, 3};  // exemplo
+    int numeros[] = {1, 2, 3, 4, 5, 2};  // exemplo
     int tamanho = sizeof(numeros) / sizeof(numeros[0]);
 
-    clock_t inicio = clock(); // ⏱️ começa medição
-
+    clock_t inicio = clock(); 
     int resultado = temDuplicatas(numeros, tamanho);
 
-    clock_t fim = clock(); // ⏱️ termina medição
+    clock_t fim = clock(); 
 
     double tempo = (double)(fim - inicio) / CLOCKS_PER_SEC;
-    printf("Tempo: %f segundos\n", tempo);  // mostra o tempo
+    printf("Tempo: %f segundos\n", tempo);  
 
     if (resultado) {
         printf("Há duplicatas.\n");
