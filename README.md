@@ -1,4 +1,17 @@
-# Implementação de Tabela Hash Genérica em C/ Verificador de Duplicatas
+# Neste repositório temos a comparação entre Verificação  de Duplicatas com e sem Tabela Hash:
+
+# Objetivo:
+Comparar o desempenho de dois métodos de verificação de duplicatas em arrays:
+- Sem Hash: comparação direta entre elementos.
+- Com Hash: uso de uma estrutura de tabela hash para marcação.
+# Métodos Utilizados:
+- Sem Hash: percorre o array com dois laços aninhados (O(n²)), comparando cada elemento com
+os demais.
+- Com Hash: usa um array auxiliar (simulando hash) para verificar duplicatas em tempo próximo de
+O(n).
+
+
+# A Implementação de Tabela Hash Genérica em C/ Verificador de Duplicatas
 
 Este código é a implementação de uma Tabela hash genérica em linguagem C,
 desenvolvida com o objetivo de armazenar pares de chave-valor de forma eficiente, com
